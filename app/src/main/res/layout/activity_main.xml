@@ -7,9 +7,127 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="connect with your audiotaper" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="img"/>
+        <TextView
+            android:id="@+id/audiotaper_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:text="audiotaper Даниил"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#006400"
+        android:text="your audiotaper succesfuly connected" />
 
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+            <include layout="@layout/audio_tile" />
+
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
