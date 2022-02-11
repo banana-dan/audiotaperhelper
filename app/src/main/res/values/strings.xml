@@ -7,4 +7,7 @@
     <string name="pick_toppings">choose your audiotaper</string>
     <string name="ok">ok</string>
 
+    <string name="connect_button_connect">connect with your audiotaper</string>
+    <string name="connect_button_disconnect">disconnect</string>
+
 </resources>

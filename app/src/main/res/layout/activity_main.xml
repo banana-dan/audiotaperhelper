@@ -8,18 +8,20 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/connect_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="connect with your audiotaper" />
+        android:text="@string/connect_button_connect" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="img"/>
+            android:text="on/off"/>
         <TextView
             android:id="@+id/audiotaper_name"
             android:layout_width="match_parent"
@@ -34,6 +36,14 @@
         android:layout_height="wrap_content"
         android:textColor="#006400"
         android:text="your audiotaper succesfuly connected" />
+
+    <EditText
+        android:id="@+id/et_console"
+        android:lines="4"
+        android:editable="false"
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 
 
