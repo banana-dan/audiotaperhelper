@@ -7,6 +7,27 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:progress="70"
+        app:indicatorColor="@color/cardview_dark_background"
+        app:indicatorSize="45dp"
+
+        app:trackColor="#0000ff"
+        app:trackCornerRadius="100dp"
+        app:trackThickness="12dp" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="50"
+        android:rotation="90"
+        android:scrollbarSize="20dp"
+        app:indicatorColor="@color/cardview_dark_background"
+        app:trackCornerRadius="100dp"
+        app:trackThickness="20dp" />
+
     <Button
         android:id="@+id/connect_button"
         android:layout_width="match_parent"
@@ -17,41 +38,43 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <Button
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="on/off"/>
+            android:text="on/off" />
+
         <TextView
             android:id="@+id/audiotaper_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/image"
-            android:textSize="20dp"
-            android:text="audiotaper Даниил"/>
+            android:text="audiotaper Даниил"
+            android:textSize="20dp" />
+
         <Button
             android:id="@+id/settings_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="S"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:text="S" />
 
     </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#006400"
-        android:text="your audiotaper succesfuly connected" />
+        android:text="your audiotaper succesfuly connected"
+        android:textColor="#006400" />
 
     <EditText
         android:id="@+id/et_console"
-        android:lines="4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:editable="false"
         android:gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+        android:lines="4" />
 
 
     <ScrollView

@@ -1,5 +1,6 @@
 package com.example.audiotaperhelper;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -24,7 +27,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.Set;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,13 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if (isLedOn) {
-                    sendMessage("0");
-                    isLedOn = false;
-                } else {
-                    sendMessage("1");
-                    isLedOn = true;
-                }
+                sendMessage("1");
 //                sendMessage("0");
             }
         });
@@ -97,94 +93,94 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void clearRecs() {//todo
-        }
+    }
 
+    @Override
+    protected void onDestroy () {
+        super.onDestroy();
+
+        unregisterReceiver(receiver);
+
+        if (connectedThread != null) {
+            connectedThread.cancel();
+        }
+        if (connectThread != null) {
+            connectThread.cancel();
+        }
+    }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
-        protected void onDestroy () {
-            super.onDestroy();
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
 
-            unregisterReceiver(receiver);
-
-            if (connectedThread != null) {
-                connectedThread.cancel();
-            }
-            if (connectThread != null) {
-                connectThread.cancel();
-            }
-        }
-
-        private BroadcastReceiver receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                final String action = intent.getAction();
-
-                switch (action) {
-                    case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
+            switch (action) {
+                case BluetoothAdapter.ACTION_DISCOVERY_STARTED:
 //                    btnEnableSearch.setText(R.string.stop_search);
 //                    pbProgress.setVisibility(View.VISIBLE);
 //                    setListAdapter(BT_SEARCH);
-                        break;
-                    case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
+                    break;
+                case BluetoothAdapter.ACTION_DISCOVERY_FINISHED:
 //                    btnEnableSearch.setText(R.string.start_search);
 //                    pbProgress.setVisibility(View.GONE);
-                        break;
-                    case BluetoothDevice.ACTION_FOUND:
-                        BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                        if (device != null) {
+                    break;
+                case BluetoothDevice.ACTION_FOUND:
+                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    if (device != null) {
 //                        bluetoothDevices.add(device);
 //                        listAdapter.notifyDataSetChanged();
-                        }
-                        break;
-                }
-            }
-        };
-
-        void connect () {
-            // creating vars
-            BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
-
-            if (bluetooth != null) {
-
-                deviceNames = null;
-                devices = null;
-                String status;
-                if (bluetooth.isEnabled()) {
-                    Set<BluetoothDevice> pairedDevices = bluetooth.getBondedDevices();
-                    if (pairedDevices.size() > 0) {
-                        // There are paired devices. Get the name and address of each paired device.
-                        deviceNames = new String[pairedDevices.size()];
-                        devices = new BluetoothDevice[pairedDevices.size()];
-                        int count = 0;
-                        for (BluetoothDevice device : pairedDevices) {
-                            deviceNames[count] = device.getName(); // adding name
-                            devices[count] = device; // adding mac
-
-                            count++;
-                        }
                     }
+                    break;
+            }
+        }
+    };
 
-                } else {
-                    // Bluetooth выключен. Предложим пользователю включить его.
-                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-                    status = "Bluetooth выключен";
+    void connect () {
+        // creating vars
+        BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
+
+        if (bluetooth != null) {
+
+            deviceNames = null;
+            devices = null;
+            String status;
+            if (bluetooth.isEnabled()) {
+                Set<BluetoothDevice> pairedDevices = bluetooth.getBondedDevices();
+                if (pairedDevices.size() > 0) {
+                    // There are paired devices. Get the name and address of each paired device.
+                    deviceNames = new String[pairedDevices.size()];
+                    devices = new BluetoothDevice[pairedDevices.size()];
+                    int count = 0;
+                    for (BluetoothDevice device : pairedDevices) {
+                        deviceNames[count] = device.getName(); // adding name
+                        devices[count] = device; // adding mac
+
+                        count++;
+                    }
                 }
 
-                showChooseMacDialog(deviceNames, devices);
-
-
+            } else {
+                // Bluetooth выключен. Предложим пользователю включить его.
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                status = "Bluetooth выключен";
             }
-        }
 
-        public void setDevice (BluetoothDevice device){
-            this.bluetoothDevice = device;
-            Log.e("tafffg", "GADFASasfdfdassssssssssL:" + bluetoothDevice);
+            showChooseMacDialog(deviceNames, devices);
+
+
+        }
+    }
+
+    public void setDevice (BluetoothDevice device){
+        this.bluetoothDevice = device;
+        Log.e("tafffg", "GADFASasfdfdassssssssssL:" + bluetoothDevice);
 //        startConnection(this.bluetoothDevice);
-            if (device != null) {
-                connectThread = new ConnectThread(device);
-                connectThread.start();
-            }
+        if (device != null) {
+            connectThread = new ConnectThread(device);
+            connectThread.start();
         }
+    }
 
 //    void sendMessage(String command) {
 //        byte[] buffer = command.getBytes();
@@ -200,197 +196,197 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
-        private void sendMessage (String command){
-            if (connectedThread != null && connectThread.isConnect()) {
-                connectedThread.write(command);
+    private void sendMessage (String command){
+        if (connectedThread != null && connectThread.isConnect()) {
+            connectedThread.write(command);
+        }
+    }
+
+    void startConnection (BluetoothDevice device){
+        if (device != null) {
+            try {
+                Method method = device.getClass().getMethod("createRfcommSocket", new Class[]{int.class});
+                mBluetoothSocket = (BluetoothSocket) method.invoke(device, 1);
+                mBluetoothSocket.connect();
+
+                mOutputStream = mBluetoothSocket.getOutputStream();
+
+                Toast.makeText(this, "connected!", Toast.LENGTH_SHORT).show();
+
+            } catch (Exception e) {
+                Toast.makeText(this, "failed!", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
         }
+    }
 
-        void startConnection (BluetoothDevice device){
-            if (device != null) {
-                try {
-                    Method method = device.getClass().getMethod("createRfcommSocket", new Class[]{int.class});
-                    mBluetoothSocket = (BluetoothSocket) method.invoke(device, 1);
-                    mBluetoothSocket.connect();
-
-                    mOutputStream = mBluetoothSocket.getOutputStream();
-
-                    Toast.makeText(this, "connected!", Toast.LENGTH_SHORT).show();
-
-                } catch (Exception e) {
-                    Toast.makeText(this, "failed!", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        public void showChooseMacDialog (String[]devicesNames,final BluetoothDevice[] devices){
-            int index = 0;
-            final int[] resIndex = {0};
-            resIndex[0] = 0;
-            DialogInterface.OnClickListener onClickListener1 = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    resIndex[0] = which;
-                }
-            };
-
-            DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    setDevice(devices[resIndex[0]]);
-                }
-            };
-            AlertDialog chooseDialog = new AlertDialog.Builder(this)
-                    .setCancelable(false)
-                    .setSingleChoiceItems(devicesNames, index, onClickListener1)
-                    .setPositiveButton("ok", onClickListener)
-                    .setNegativeButton("no", onClickListener1)
-                    .create();
-
-            chooseDialog.show();
-        }
-
-        private class ConnectThread extends Thread {
-            /* Этот класс отвечает за подключение к устройству*/
-            private BluetoothSocket bluetoothSocket = null;
-            private boolean success = false;
-
-            public ConnectThread(BluetoothDevice device) {
-                try {
-                    Method method = device.getClass().getMethod("createRfcommSocket", new Class[]{int.class});
-                    bluetoothSocket = (BluetoothSocket) method.invoke(device, 1);
-                    progressDialog.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            public void run() {
-                try {
-                    bluetoothSocket.connect();
-                    success = true;
-
-                    progressDialog.dismiss();
-                } catch (IOException e) {
-                    e.printStackTrace();
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressDialog.dismiss();
-                            Toast.makeText(MainActivity.this, "cant connect", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    cancel();
-                }
-
-                if (success) {
-                    connectedThread = new ConnectedThread(bluetoothSocket);
-                    connectedThread.start();
-//                showFrameLedControls; мне это не надо
-                }
-
-            }
-
-            public boolean isConnect() {
-                return bluetoothSocket.isConnected();
-            }
-
-            public void cancel() {
-                try {
-                    bluetoothSocket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        // класс отвечающий за взаимодействия с ардуино, когда она уже подключена
-        private class ConnectedThread extends Thread {
-            private final InputStream inputStream;
-            private final OutputStream outputStream;
-            private boolean isConnected = false;
-
-            public ConnectedThread(BluetoothSocket bluetoothSocket) {
-                InputStream inputStream = null;
-                OutputStream outputStream = null;
-
-                try {
-                    inputStream = bluetoothSocket.getInputStream();
-                    outputStream = bluetoothSocket.getOutputStream();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                this.inputStream = inputStream;
-                this.outputStream = outputStream;
-                isConnected = true;
-            }
-
+    public void showChooseMacDialog (String[]devicesNames,final BluetoothDevice[] devices){
+        int index = 0;
+        final int[] resIndex = {0};
+        resIndex[0] = 0;
+        DialogInterface.OnClickListener onClickListener1 = new DialogInterface.OnClickListener() {
             @Override
-            public void run() {
-                BufferedInputStream bis = new BufferedInputStream(inputStream);
-                StringBuffer buffer = new StringBuffer();
-                final StringBuffer sbConsole = new StringBuffer();
-                final ScrollingMovementMethod movementMethod = new ScrollingMovementMethod();
+            public void onClick(DialogInterface dialog, int which) {
+                resIndex[0] = which;
+            }
+        };
 
+        DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-                while (isConnected) {
-                    try {
-                        int bytes = bis.read();
-                        buffer.append((char) bytes);
-                        int eof = buffer.indexOf("\r\n");
-                        if (eof > 0) {
-                            sbConsole.append(buffer.toString());
-                            buffer.delete(0, buffer.length());
+                setDevice(devices[resIndex[0]]);
+            }
+        };
+        AlertDialog chooseDialog = new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setSingleChoiceItems(devicesNames, index, onClickListener1)
+                .setPositiveButton("ok", onClickListener)
+                .setNegativeButton("no", onClickListener1)
+                .create();
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    etConsole.setText(sbConsole.toString());
-                                    etConsole.setMovementMethod(movementMethod);
-                                }
-                            });
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        chooseDialog.show();
+    }
+
+    private class ConnectThread extends Thread {
+        /* Этот класс отвечает за подключение к устройству*/
+        private BluetoothSocket bluetoothSocket = null;
+        private boolean success = false;
+
+        public ConnectThread(BluetoothDevice device) {
+            try {
+                Method method = device.getClass().getMethod("createRfcommSocket", new Class[]{int.class});
+                bluetoothSocket = (BluetoothSocket) method.invoke(device, 1);
+                progressDialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void run() {
+            try {
+                bluetoothSocket.connect();
+                success = true;
+
+                progressDialog.dismiss();
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                        Toast.makeText(MainActivity.this, "cant connect", Toast.LENGTH_SHORT).show();
                     }
-                }
+                });
+
+                cancel();
+            }
+
+            if (success) {
+                connectedThread = new ConnectedThread(bluetoothSocket);
+                connectedThread.start();
+//                showFrameLedControls; мне это не надо
+            }
+
+        }
+
+        public boolean isConnect() {
+            return bluetoothSocket.isConnected();
+        }
+
+        public void cancel() {
+            try {
+                bluetoothSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // класс отвечающий за взаимодействия с ардуино, когда она уже подключена
+    private class ConnectedThread extends Thread {
+        private final InputStream inputStream;
+        private final OutputStream outputStream;
+        private boolean isConnected = false;
+
+        public ConnectedThread(BluetoothSocket bluetoothSocket) {
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                inputStream = bluetoothSocket.getInputStream();
+                outputStream = bluetoothSocket.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            this.inputStream = inputStream;
+            this.outputStream = outputStream;
+            isConnected = true;
+        }
+
+        @Override
+        public void run() {
+            BufferedInputStream bis = new BufferedInputStream(inputStream);
+            StringBuffer buffer = new StringBuffer();
+            final StringBuffer sbConsole = new StringBuffer();
+            final ScrollingMovementMethod movementMethod = new ScrollingMovementMethod();
+
+
+            while (isConnected) {
                 try {
-                    bis.close();
+                    int bytes = bis.read();
+                    buffer.append((char) bytes);
+                    int eof = buffer.indexOf("\r\n");
+                    if (eof > 0) {
+                        sbConsole.append(buffer.toString());
+                        buffer.delete(0, buffer.length());
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                etConsole.setText(sbConsole.toString());
+                                etConsole.setMovementMethod(movementMethod);
+                            }
+                        });
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-
-
-            public void write(String command) {
-                byte[] bytes = command.getBytes();
-                if (outputStream != null) {
-                    try {
-                        outputStream.write(bytes);
-                        outputStream.flush();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+            try {
+                bis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
 
-            public void cancel() {
+
+        public void write(String command) {
+            byte[] bytes = command.getBytes();
+            if (outputStream != null) {
                 try {
-                    isConnected = false;
-                    inputStream.close();
-                    outputStream.close();
+                    outputStream.write(bytes);
+                    outputStream.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        // пример отправки сигнала на arduino (что нужно обязательно проверить перед отправкой) todo
+        public void cancel() {
+            try {
+                isConnected = false;
+                inputStream.close();
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // пример отправки сигнала на arduino (что нужно обязательно проверить перед отправкой) todo
 //    private void enableLed(int led, boolean state) {
 //        if (connectedThread != null && connectThread.isConnect()) {
 //            String command = "";
@@ -406,6 +402,5 @@ public class MainActivity extends AppCompatActivity {
 //            connectedThread.write(command);
 //        }
 //    }
-    }
-
+}
 

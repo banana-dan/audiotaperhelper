@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_margin="10dp"
+
+            android:background="@drawable/myrect"
+            android:elevation="4dp">
+
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/audiotaper" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/storage_size_pb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:progress="30"
+                app:indicatorColor="#E8CDFF"
+                app:indicatorSize="50dp"
+                app:trackColor="#9727FF"
+                app:trackThickness="10dp" />
+
+            <TextView
+                android:textColor="#9727FF"
+                android:textAlignment="center"
+                android:text="30%"
+                android:layout_alignLeft="@id/storage_size_pb"
+                android:gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_width="30dp"
+                android:textSize="10dp"
+                android:layout_height="20dp"/>
+
+            <ImageView
+                android:id="@+id/image_audiotaper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_baseline_call_to_action_24"
+                android:layout_below="@id/storage_size_pb"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="10dp"
+                />
+
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="12dp"
+
+                android:layout_height="match_parent"
+                android:layout_below="@id/image_audiotaper"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:progress="40"
+                android:progressDrawable="@drawable/verticalprogressbar" />
+
+
+            <ImageView
+                android:id="@+id/image_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_baseline_smartphone_24"
+                android:layout_marginLeft="49dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/storage_size_pb"
+                />
+
+            <ProgressBar
+                android:id="@+id/progressBar2"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="12dp"
+                android:layout_height="match_parent"
+                android:layout_below="@id/image_phone"
+                android:layout_marginLeft="55dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:progress="40"
+                android:progressDrawable="@drawable/verticalprogressbar" />
+
+            <ImageView
+                android:id="@+id/charge_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="19dp"
+                android:background="@drawable/ic_baseline_battery_charging_full_24" />
+
+            <ProgressBar
+                android:id="@+id/progressBar3"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="12dp"
+                android:layout_height="match_parent"
+                android:layout_below="@id/charge_icon"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:progress="40"
+                android:progressDrawable="@drawable/verticalprogressbar_charge" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/load_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/myrect"
+                android:elevation="4dp"
+                android:text="load" />
+
+            <Button
+                android:id="@+id/settings_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/myrect"
+                android:elevation="4dp"
+                android:text="settings" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/audio_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+
+            <!--            <include layout="@layout/audio_tile" />-->
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/myrect"
+            android:elevation="4dp"
+            android:text="clear all" />
+
+        <EditText
+            android:id="@+id/et_console"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:gravity="bottom"
+            android:lines="4" />
+
+        <Button
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="on/off" />
+
+        <Button
+            android:id="@+id/connect_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/connect_button_connect" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+
+    </LinearLayout>
+</ScrollView>
